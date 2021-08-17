@@ -8,22 +8,25 @@ export default class Conversor extends Component {
 
         this.state = {
             moedaA_valor: "",
-            moedaB_valor: 0,
-        }
+            moedaB_valor: 0
+        };
             this.converter = this.converter.bind(this);
     }
 
     converter(){
-       fetch('https://economia.awesomeapi.com.br/json/daily/USD-BRL/1')
-       .then(function (response) {
-           return response.json();
-       })
-       .then(function(data){
-           console.log(data[0].high);
-           let cotacao = data[0].high;
-           let moedaB_valor = this.state.moedaA_valor * cotacao;
-           this.setState({moedaB_valor});
-       })
+        let de_para = `${this.props.moedaA}_${this.props.moedaB}`;
+        let url = `https://free.currconv.com/api/v7/convert?q=${de_para}&compact=ultra&apiKey=3ace7c8c04338f72c1e7`;
+
+        fetch(url)
+        .then( res => {
+            return res.json()
+        })
+        .then(json => {
+            let cotacao = json[de_para];
+            let moedaB_valor = ( parseFloat(this.state.moedaA_valor) * cotacao).toFixed(2);
+            this.setState({moedaB_valor})
+        })
+
     }
 
     render() {
@@ -35,7 +38,9 @@ export default class Conversor extends Component {
                     onChange={(event)=>{this.setState({moedaA_valor: event.target.value})}}>
                 </input>
                     <button
-                    type="button" onClick={this.converter}>
+                    type="button"
+                    value="Converter"
+                    onClick={this.converter}>
                         Converter
                     </button>
                 <h2>{this.state.moedaB_valor} Reais</h2>
