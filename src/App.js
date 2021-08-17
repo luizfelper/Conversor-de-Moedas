@@ -4,7 +4,7 @@ import Conversor from './components/Conversor'
 function App() {
   return (
     <div className="App">
-      <Conversor moedaUSD="USD" moedaBRL="BRL"></Conversor>
+      <Conversor moedaA="EURO" moedaB="BRL"></Conversor>
     </div>
   );
 }
