@@ -14,7 +14,31 @@ export default class Conversor extends Component {
     }
 
     converter(){
-        console.log(this.state);
+        let de_para = `${this.props.moedaA}-${this.props.moedaB}`;
+        let qtd_dias = `1`; //Quantidade de dias a ser mostrado.
+        let url = `https://economia.awesomeapi.com.br/json/daily/${de_para}/${qtd_dias}`;
+
+
+        fetch(url)
+        .then(function (resposta) {
+            resposta.json()
+            .then(function (data) {
+                console.log(data);
+                //let moedaB_valor = (this.state.moedaA_valor * this.state.moedaB_val);
+            })
+        })
+
+        /* 
+        fetch(url)
+        .then(res=>{
+            return res.json()
+            console.log(res.json)
+        })
+        .then(json=>{
+            let cotacao = json[de_para].value;
+            let moedaB_valor = (parseFloat(this.state.moedaA_valor) * cotacao).toFixed(2);
+            this.setState({moedaB_valor})
+        }) */
     }
 
     render() {
@@ -31,7 +55,7 @@ export default class Conversor extends Component {
                     onClick={this.converter}>
                         Converter
                     </button>
-                <h2>Valor convertido</h2>
+                <h2>{this.state.moedaB_valor}</h2>
             </div>
         )
     }
